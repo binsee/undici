@@ -39,7 +39,8 @@ module.exports.RedirectHandler = RedirectHandler
 module.exports.interceptors = {
   redirect: require('./lib/interceptor/redirect'),
   retry: require('./lib/interceptor/retry'),
-  dump: require('./lib/interceptor/dump')
+  dump: require('./lib/interceptor/dump'),
+  dns: require('./lib/interceptor/dns')
 }
 
 module.exports.buildConnector = buildConnector
@@ -147,6 +148,9 @@ module.exports.WebSocket = require('./lib/web/websocket/websocket').WebSocket
 module.exports.CloseEvent = CloseEvent
 module.exports.ErrorEvent = ErrorEvent
 module.exports.MessageEvent = MessageEvent
+
+module.exports.WebSocketStream = require('./lib/web/websocket/stream/websocketstream').WebSocketStream
+module.exports.WebSocketError = require('./lib/web/websocket/stream/websocketerror').WebSocketError
 
 module.exports.request = makeDispatcher(api.request)
 module.exports.stream = makeDispatcher(api.stream)
