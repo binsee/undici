@@ -9,12 +9,6 @@ interface mixin NavigatorML {
 Navigator includes NavigatorML;
 WorkerNavigator includes NavigatorML;
 
-enum MLDeviceType {
-  "cpu",
-  "gpu",
-  "npu"
-};
-
 enum MLPowerPreference {
   "default",
   "high-performance",
@@ -22,7 +16,6 @@ enum MLPowerPreference {
 };
 
 dictionary MLContextOptions {
-  MLDeviceType deviceType = "cpu";
   MLPowerPreference powerPreference = "default";
 };
 
@@ -33,6 +26,10 @@ interface ML {
 };
 
 typedef record<USVString, MLTensor> MLNamedTensors;
+
+dictionary MLContextLostInfo {
+  DOMString message;
+};
 
 [SecureContext, Exposed=(Window, DedicatedWorker)]
 interface MLContext {
@@ -46,6 +43,10 @@ interface MLContext {
   undefined writeTensor(MLTensor tensor, AllowSharedBufferSource inputData);
 
   MLOpSupportLimits opSupportLimits();
+
+  undefined destroy();
+
+  readonly attribute Promise<MLContextLostInfo> lost;
 };
 
 dictionary MLOpSupportLimits {
@@ -71,7 +72,9 @@ dictionary MLSingleInputSupportLimits {
 };
 
 [SecureContext, Exposed=(Window, DedicatedWorker)]
-interface MLGraph {};
+interface MLGraph {
+  undefined destroy();
+};
 
 enum MLInputOperandLayout {
   "nchw",
